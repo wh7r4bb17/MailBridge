@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>MailBridge.ConsoleExample</RootNamespace>
+		<Cert>wh7r4bb17</Cert>
+	</PropertyGroup>
+
+	<!--  Assembly Identity  -->
+	<PropertyGroup>
+		<AssemblyTitle>MailBridge.ConsoleExample</AssemblyTitle>
+		<AssemblyVersion>$(Version)</AssemblyVersion>
+		<FileVersion>$(Version)</FileVersion>
+		<Version>26.1.0</Version>
+		<Product>ConsoleExample for using MailBridge.Core in a Console Application</Product>
+		<Description>ConsoleExample for using MailBridge.Core in a Console Application.</Description>
+		<Company>wh7r4bb17</Company>
+		<Authors>wh7r4bb17</Authors>
+		<Copyright>Copyright © 2026</Copyright>
+		<ApplicationIcon>Resources\EvilRabbit.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<!--  Licensing and Repository  -->
+	<PropertyGroup>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<RepositoryUrl>https://github.com/wh7r4bb17/MailBridge/tree/master/MailBridge.ConsoleExample</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\MailBridge.Core\MailBridge.Core.csproj" />
+	</ItemGroup>
+
+	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.BeforeEnd.targets', '$(MSBuildThisFileDirectory)../'))" Condition="Exists($([MSBuild]::GetPathOfFileAbove('Directory.Build.BeforeEnd.targets', '$(MSBuildThisFileDirectory)../')))" />
+
+</Project>

@@ -1,0 +1,68 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>MailBridge.Core</RootNamespace>
+		<Cert>wh7r4bb17</Cert>
+	</PropertyGroup>
+
+	<!--  Assembly Identity  -->
+	<PropertyGroup>
+		<AssemblyTitle>MailBridge.Core</AssemblyTitle>
+		<AssemblyVersion>$(Version)</AssemblyVersion>
+		<FileVersion>$(Version)</FileVersion>
+		<Version>26.1.0</Version>
+		<Product>.NET library for sending emails via SMTP using MailKit</Product>
+		<Description>MailBridge.Core is a framework-independent .NET library for sending emails via SMTP using MailKit.</Description>
+		<Company>wh7r4bb17</Company>
+		<Authors>wh7r4bb17</Authors>
+		<Copyright>Copyright © 2026</Copyright>
+	</PropertyGroup>
+
+	<!--  NuGet Package Metadata  -->
+	<PropertyGroup>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<IncludeSymbols>True</IncludeSymbols>
+		<PackageOutputPath>$(Nuget)</PackageOutputPath>
+		<Title>MailBridge.Core</Title>
+		<PackageIcon>EvilRabbit.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageTags>Mail; SMTP</PackageTags>
+		<PackageReleaseNotes></PackageReleaseNotes>
+		<PackageProjectUrl>https://github.com/wh7r4bb17/MailBridge</PackageProjectUrl>
+	</PropertyGroup>
+
+	<!--  Licensing and Repository  -->
+	<PropertyGroup>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<RepositoryUrl>https://github.com/wh7r4bb17/MailBridge/tree/master/MailBridge.Core</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="LICENSE.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="Resources\EvilRabbit.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MailKit" Version="4.17.0" />
+		<PackageReference Include="Serilog" Version="4.4.0" />
+		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+	</ItemGroup>
+
+	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.BeforeEnd.targets', '$(MSBuildThisFileDirectory)../'))" Condition="Exists($([MSBuild]::GetPathOfFileAbove('Directory.Build.BeforeEnd.targets', '$(MSBuildThisFileDirectory)../')))" />
+
+</Project>

@@ -1,0 +1,45 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailBridge.Core", "MailBridge.Core\MailBridge.Core.csproj", "{EA474C8B-00A9-4D1E-9D21-7DC070BC93F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailBridge.Wpf Test Client", "MailBridge.Wpf Test Client\MailBridge.Wpf Test Client.csproj", "{EEBC1467-2B87-4388-AD33-1EBB880F2FED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailBridge.ConsoleExample", "MailBridge.ConsoleExample\MailBridge.ConsoleExample.csproj", "{EEA1BF0F-D83D-4398-B347-EEC91395A95F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		Directory.Build.BeforeEnd.targets = Directory.Build.BeforeEnd.targets
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EA474C8B-00A9-4D1E-9D21-7DC070BC93F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA474C8B-00A9-4D1E-9D21-7DC070BC93F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA474C8B-00A9-4D1E-9D21-7DC070BC93F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA474C8B-00A9-4D1E-9D21-7DC070BC93F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEBC1467-2B87-4388-AD33-1EBB880F2FED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEBC1467-2B87-4388-AD33-1EBB880F2FED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEBC1467-2B87-4388-AD33-1EBB880F2FED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEBC1467-2B87-4388-AD33-1EBB880F2FED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEA1BF0F-D83D-4398-B347-EEC91395A95F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEA1BF0F-D83D-4398-B347-EEC91395A95F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEA1BF0F-D83D-4398-B347-EEC91395A95F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEA1BF0F-D83D-4398-B347-EEC91395A95F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4C594886-B466-498C-B4E4-5B5F1BCB3B3D}
+	EndGlobalSection
+EndGlobal
