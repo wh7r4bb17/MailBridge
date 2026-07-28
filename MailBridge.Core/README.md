@@ -43,10 +43,10 @@
 
 ```
 MailKit
-Serilog
+NLog
 ```
 
-The host application (WPF, console, etc.) is responsible for the concrete Serilog sink configuration (e.g. `Serilog.Sinks.File`, `Serilog.Sinks.Console`) — see the [Logging](#logging) section.
+The host application (WPF, console, etc.) is responsible for the concrete NLog target configuration (e.g. file target, console target) via an `NLog.config` file — see the [Logging](#logging) section.
 
 ## Usage
 
@@ -195,23 +195,46 @@ If `UseAuthentication` is set to `true`, `Username` and `Password` must both be 
 
 ## Logging
 
-`MailBridge.Core` uses [Serilog](https://serilog.net/) for structured logging. The library itself does not configure any sinks (e.g. file, console) — that responsibility is intentionally left to the host application, so each application can decide for itself where logs are written to.
+`MailBridge.Core` uses [NLog](https://nlog-project.org/) for structured logging. The library itself does not configure any targets (e.g. file, console) — that responsibility is intentionally left to the host application via an `NLog.config` file, so each application can decide for itself where logs are written to.
 
 ### Setting up LoggingConfig
 
-`LoggingConfig` provides a shared `LoggingLevelSwitch` that the host application wires into its Serilog configuration:
+`LoggingConfig` provides a shared helper that the host application uses to control the minimum log level of all rules defined in the loaded `NLog.config`:
 
 ```csharp
-using Serilog;
+using NLog;
 using MailBridge.Core;
 
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.ControlledBy(LoggingConfig.LevelSwitch)
-    .WriteTo.File(
-        path: Path.Combine(logDirectory, "mailbridge_.log"),
-        rollingInterval: RollingInterval.Day,
-        retainedFileCountLimit: 30)
-    .CreateLogger();
+// Load the NLog configuration once at application startup
+LogManager.Setup().LoadConfigurationFromFile("NLog.config");
+
+// Set the initial minimum log level
+LoggingConfig.SetMinLevel(LogLevel.Info);
+```
+
+An example `NLog.config` for a file and console target:
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      autoReload="true"
+      throwConfigExceptions="true"
+      internalLogLevel="Off">
+
+  <targets>
+    <target xsi:type="File" name="logfile"
+            fileName="${specialfolder:folder=LocalApplicationData}/MailBridge/logs/app-${shortdate}.log"
+            layout="${longdate}|${level:uppercase=true}|${logger}|${message} ${exception:format=tostring}" />
+
+    <target xsi:type="Console" name="logconsole"
+            layout="${longdate}|${level:uppercase=true}|${logger}|${message}" />
+  </targets>
+
+  <rules>
+    <logger name="*" minlevel="Info" writeTo="logfile,logconsole" />
+  </rules>
+</nlog>
 ```
 
 ### Controlling the log level at runtime
@@ -219,15 +242,16 @@ Log.Logger = new LoggerConfiguration()
 The log level can be adjusted at runtime, e.g. driven by a setting such as `EnableLogging`:
 
 ```csharp
-using Serilog.Events;
+using NLog;
 using MailBridge.Core;
 
-LoggingConfig.LevelSwitch.MinimumLevel = enableLogging
-    ? LogEventLevel.Debug
-    : LogEventLevel.Error;
+LoggingConfig.SetMinLevel(enableLogging
+    ? LogLevel.Debug
+    : LogLevel.Off);
 ```
 
-This keeps control centralized, while each host application decides for itself which sinks (file, console, etc.) are actually used.
+`LoggingConfig.SetMinLevel` updates the minimum level of every rule in the currently loaded `NLog.config` and calls `LogManager.ReconfigExistingLoggers()`, so the change takes effect immediately without restarting the application. This keeps control centralized, while each host application decides for itself which targets (file, console, etc.) are actually used.
+
 
 ## Application settings
 

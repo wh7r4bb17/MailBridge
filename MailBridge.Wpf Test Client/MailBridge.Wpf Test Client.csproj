@@ -15,7 +15,7 @@
 		<AssemblyTitle>MailBridge Test Client</AssemblyTitle>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<FileVersion>$(Version)</FileVersion>
-		<Version>26.1.0</Version>
+		<Version>26.1.1</Version>
 		<Product>A Wpf Test Client to send emails using MailBridge.Core</Product>
 		<Description>A Wpf Test Client to send emails using MailBridge.Core.</Description>
 		<Company>wh7r4bb17</Company>
@@ -35,8 +35,6 @@
 	<ItemGroup>
 		<PackageReference Include="MailKit" Version="4.17.0" />
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4078.44" />
-		<PackageReference Include="Serilog" Version="4.4.0" />
-		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -45,6 +43,12 @@
 
 	<ItemGroup>
 		<Resource Include="Resources\EvilRabbit.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="NLog.config">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.BeforeEnd.targets', '$(MSBuildThisFileDirectory)../'))" Condition="Exists($([MSBuild]::GetPathOfFileAbove('Directory.Build.BeforeEnd.targets', '$(MSBuildThisFileDirectory)../')))" />

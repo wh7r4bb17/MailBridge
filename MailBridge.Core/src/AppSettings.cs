@@ -1,4 +1,4 @@
-using Serilog;
+using NLog;
 using System.Text.Json;
 
 namespace MailBridge.Core
@@ -22,6 +22,7 @@ namespace MailBridge.Core
         private static readonly string _localAppDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         private static readonly string _settingsDirectory = Path.Combine(_localAppDataDirectory, "MailBridge");
         private static readonly string _settingsFilePath = Path.Combine(_settingsDirectory, "settings.json");
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion Fields
 
@@ -108,7 +109,7 @@ namespace MailBridge.Core
                 }
             catch (Exception ex) when (ex is IOException or JsonException or UnauthorizedAccessException)
                 {
-                Log.Warning(ex, "Failed to load settings");
+                Logger.Warn(ex, "Failed to load settings");
                 }
 
             return new AppSettings();
@@ -130,11 +131,11 @@ namespace MailBridge.Core
                     File.WriteAllText(_settingsFilePath, json);
                     }
 
-                Log.Information("Settings saved successfully");
+                Logger.Info("Settings saved successfully");
                 }
             catch (Exception ex)
                 {
-                Log.Error(ex, "Failed to save settings");
+                Logger.Error(ex, "Failed to save settings");
                 }
             }
 

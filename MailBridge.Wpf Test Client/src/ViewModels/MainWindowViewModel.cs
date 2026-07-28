@@ -3,8 +3,7 @@ using MailBridge.Wpf.Commands;
 using MailBridge.Wpf.Services;
 using MailBridge.Wpf.Views;
 using MailKit.Security;
-using Serilog;
-using Serilog.Events;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,6 +25,7 @@ namespace MailBridge.Wpf.ViewModels
         {
         #region Fields
 
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IDialogService _dialogService;
         private readonly SmtpService _smtpService;
         private ObservableCollection<string> _attachmentPaths = [];
@@ -201,11 +201,11 @@ namespace MailBridge.Wpf.ViewModels
                 {
                 if (SetProperty(ref _enableLogging, value))
                     {
-                    LoggingConfig.LevelSwitch.MinimumLevel = value
-                        ? LogEventLevel.Debug
-                        : LogEventLevel.Error;
+                    LoggingConfig.SetMinLevel(value
+                        ? LogLevel.Debug
+                        : LogLevel.Error);
 
-                    Log.Information("Logging {State}", value ? "enabled" : "disabled");
+                    Logger.Info("Logging {State}", value ? "enabled" : "disabled");
                     }
                 }
             }
@@ -384,7 +384,7 @@ namespace MailBridge.Wpf.ViewModels
         public void SaveOnExit()
             {
             SaveSettingsFromProperties();
-            Log.Information("Application closing.");
+            Logger.Info("Application closing.");
             }
 
         #endregion Public Methods
@@ -412,7 +412,7 @@ namespace MailBridge.Wpf.ViewModels
                 }
             catch (Exception ex)
                 {
-                Log.Error(ex, "Failed to open log directory");
+                Logger.Error(ex, "Failed to open log directory");
                 }
             }
 
@@ -437,7 +437,7 @@ namespace MailBridge.Wpf.ViewModels
         private void CancelSend()
             {
             _cancellationTokenSource?.Cancel();
-            Log.Information("Send operation cancelled by user.");
+            Logger.Info("Send operation cancelled by user.");
             IsBusy = false;
             }
 
@@ -453,11 +453,11 @@ namespace MailBridge.Wpf.ViewModels
             {
             _settings = AppSettings.Load();
 
-            LoggingConfig.LevelSwitch.MinimumLevel = _settings.EnableLogging
-                ? LogEventLevel.Debug
-                : LogEventLevel.Error;
+            LoggingConfig.SetMinLevel(_settings.EnableLogging
+                ? LogLevel.Debug
+                : LogLevel.Error);
 
-            Log.Information("Application started.");
+            Logger.Info("Application started.");
 
             SmtpServer = _settings.SmtpServer;
             PortText = _settings.Port.ToString();
@@ -470,7 +470,7 @@ namespace MailBridge.Wpf.ViewModels
             TimeoutSeconds = Math.Clamp(_settings.ConnectionTimeoutSeconds, 5, 300);
             EnableLogging = _settings.EnableLogging;
 
-            Log.Debug("Settings loaded to form.");
+            Logger.Debug("Settings loaded to form.");
             }
 
         private void OpenLogViewer()
@@ -521,7 +521,7 @@ namespace MailBridge.Wpf.ViewModels
             string[] ccEmails = EmailCc.Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
             string[] bccEmails = EmailBcc.Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 
-            Log.Debug($"Email send attempt - Server: {host}:{port}, From: {fromEmail}, To: {string.Join("; ", toEmails)}, TLS: {(UseTls ? "Yes" : "No")}");
+            Logger.Debug($"Email send attempt - Server: {host}:{port}, From: {fromEmail}, To: {string.Join("; ", toEmails)}, TLS: {(UseTls ? "Yes" : "No")}");
             _cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(TimeoutSeconds));
 
             try
@@ -541,7 +541,7 @@ namespace MailBridge.Wpf.ViewModels
                     Subject = EmailSubject,
                     Body = EmailBody,
                     HtmlBody = string.IsNullOrWhiteSpace(EmailHtmlBody) ? null : EmailHtmlBody,
-                    Attachments = AttachmentPaths.ToList(),
+                    Attachments = [.. AttachmentPaths],
                     UseAuthentication = UseAuthentication,
                     Username = Username,
                     Password = Password,
@@ -550,7 +550,7 @@ namespace MailBridge.Wpf.ViewModels
 
                 await _smtpService.SendAsync(request, _cancellationTokenSource.Token);
 
-                Log.Information($"Email sent successfully to {string.Join("; ", toEmails)} via {host}");
+                Logger.Info($"Email sent successfully to {string.Join("; ", toEmails)} via {host}");
                 _dialogService.ShowInfo("Email Sent.", "Success");
                 SaveSettingsFromProperties();
                 }
@@ -559,13 +559,13 @@ namespace MailBridge.Wpf.ViewModels
                 if (_cancellationTokenSource?.IsCancellationRequested == true)
                     {
                     string message = IsBusy ? "Connection timed out." : "Operation cancelled by user.";
-                    Log.Warning($"Email send failed to {string.Join("; ", toEmails)} via {host}: {message}");
+                    Logger.Warn($"Email send failed to {string.Join("; ", toEmails)} via {host}: {message}");
                     _dialogService.ShowWarning(message, "Cancelled");
                     }
                 }
             catch (Exception ex)
                 {
-                Log.Error(ex, $"Email send failed to {string.Join("; ", toEmails)} via {host}");
+                Logger.Error(ex, $"Email send failed to {string.Join("; ", toEmails)} via {host}");
                 _dialogService.ShowError($"Error sending email: {ex.Message}", "Error");
                 }
             finally
@@ -578,7 +578,7 @@ namespace MailBridge.Wpf.ViewModels
 
         private void ShowValidationError(string message)
             {
-            Log.Warning($"Validation error: {message}");
+            Logger.Warn($"Validation error: {message}");
             _dialogService.ShowWarning(message, "Validation Error");
             }
 

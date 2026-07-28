@@ -1,31 +1,25 @@
-using System.IO;
+using NLog;
 using System.Windows;
-using MailBridge.Core;
-using Serilog;
 
 namespace MailBridge.Wpf
     {
     public partial class App : Application
         {
+        #region Protected Methods
+
+        protected override void OnExit(ExitEventArgs e)
+            {
+            LogManager.Shutdown();
+            base.OnExit(e);
+            }
+
         protected override void OnStartup(StartupEventArgs e)
             {
-            string logDirectory = Path.Combine(AppSettings.GetSettingsDirectory(), "Logs");
-
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.ControlledBy(LoggingConfig.LevelSwitch)
-                .WriteTo.File(
-                    path: Path.Combine(logDirectory, "mailbridge_.log"),
-                    rollingInterval: RollingInterval.Day,
-                    retainedFileCountLimit: 30)
-                .CreateLogger();
+            LogManager.Setup().LoadConfigurationFromFile("NLog.config");
 
             base.OnStartup(e);
             }
 
-        protected override void OnExit(ExitEventArgs e)
-            {
-            Log.CloseAndFlush();
-            base.OnExit(e);
-            }
+        #endregion Protected Methods
         }
     }

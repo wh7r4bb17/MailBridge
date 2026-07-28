@@ -13,7 +13,7 @@
 		<AssemblyTitle>MailBridge.Core</AssemblyTitle>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<FileVersion>$(Version)</FileVersion>
-		<Version>26.1.0</Version>
+		<Version>26.1.1</Version>
 		<Product>.NET library for sending emails via SMTP using MailKit</Product>
 		<Description>MailBridge.Core is a framework-independent .NET library for sending emails via SMTP using MailKit.</Description>
 		<Company>wh7r4bb17</Company>
@@ -30,7 +30,7 @@
 		<PackageIcon>EvilRabbit.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>Mail; SMTP</PackageTags>
-		<PackageReleaseNotes></PackageReleaseNotes>
+		<PackageReleaseNotes>Changed logging from Serilog to Nlog</PackageReleaseNotes>
 		<PackageProjectUrl>https://github.com/wh7r4bb17/MailBridge</PackageProjectUrl>
 	</PropertyGroup>
 
@@ -59,8 +59,14 @@
 
 	<ItemGroup>
 		<PackageReference Include="MailKit" Version="4.17.0" />
-		<PackageReference Include="Serilog" Version="4.4.0" />
-		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+		<PackageReference Include="NLog" Version="6.1.4" />
+		<PackageReference Include="NLog.Extensions.Logging" Version="6.1.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="NLog.config">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.BeforeEnd.targets', '$(MSBuildThisFileDirectory)../'))" Condition="Exists($([MSBuild]::GetPathOfFileAbove('Directory.Build.BeforeEnd.targets', '$(MSBuildThisFileDirectory)../')))" />

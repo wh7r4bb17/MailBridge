@@ -1,7 +1,7 @@
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
-using Serilog;
+using NLog;
 
 namespace MailBridge.Core
     {
@@ -12,6 +12,11 @@ namespace MailBridge.Core
     /// </summary>
     public sealed class SmtpService
         {
+        #region Fields
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        #endregion Fields
+
         #region Public Methods
 
         /// <summary>
@@ -61,15 +66,15 @@ namespace MailBridge.Core
 
             try
                 {
-                Log.Debug($"Connecting to SMTP server {host}:{request.Port} using {request.SocketOptions}");
+                Logger.Debug($"Connecting to SMTP server {host}:{request.Port} using {request.SocketOptions}");
                 await client.ConnectAsync(host, request.Port, request.SocketOptions, cancellationToken);
-                Log.Information($"Connected to SMTP server {host}:{request.Port}");
+                Logger.Info($"Connected to SMTP server {host}:{request.Port}");
 
                 if (username is not null && password is not null)
                     {
-                    Log.Debug($"Authenticating with SMTP server as {username}");
+                    Logger.Debug($"Authenticating with SMTP server as {username}");
                     await client.AuthenticateAsync(username, password, cancellationToken);
-                    Log.Information($"Authenticated with SMTP server as {username}");
+                    Logger.Info($"Authenticated with SMTP server as {username}");
                     }
 
                 MimeMessage message = new()
@@ -114,34 +119,34 @@ namespace MailBridge.Core
                     {
                     if (!string.IsNullOrWhiteSpace(attachmentPath) && File.Exists(attachmentPath))
                         {
-                        Log.Debug($"Attaching file {attachmentPath}");
+                        Logger.Debug($"Attaching file {attachmentPath}");
                         await builder.Attachments.AddAsync(attachmentPath, cancellationToken);
                         }
                     else
-                        { Log.Warning($"Attachment not found, skipping: {attachmentPath}"); }
+                        { Logger.Warn($"Attachment not found, skipping: {attachmentPath}"); }
                     }
 
                 message.Body = builder.ToMessageBody();
 
-                Log.Debug($"Sending email from {fromEmail} to {string.Join(", ", toEmails)} with subject {subject}");
+                Logger.Debug($"Sending email from {fromEmail} to {string.Join(", ", toEmails)} with subject {subject}");
                 await client.SendAsync(message, cancellationToken);
 
-                Log.Information($"Email sent successfully from {fromEmail} to {string.Join(", ", toEmails)}");
+                Logger.Info($"Email sent successfully from {fromEmail} to {string.Join(", ", toEmails)}");
                 await client.DisconnectAsync(true, cancellationToken);
                 }
             catch (OperationCanceledException)
                 {
-                Log.Warning($"SMTP operation to {host}:{request.Port} was cancelled");
+                Logger.Warn($"SMTP operation to {host}:{request.Port} was cancelled");
                 throw;
                 }
             catch (AuthenticationException ex)
                 {
-                Log.Error(ex, $"SMTP authentication failed for user {username} on {host}:{request.Port}");
+                Logger.Error(ex, $"SMTP authentication failed for user {username} on {host}:{request.Port}");
                 throw;
                 }
             catch (Exception ex)
                 {
-                Log.Error(ex, $"Failed to send email from {fromEmail} to {string.Join(", ", toEmails)} via {host}:{request.Port}");
+                Logger.Error(ex, $"Failed to send email from {fromEmail} to {string.Join(", ", toEmails)} via {host}:{request.Port}");
                 throw;
                 }
             }

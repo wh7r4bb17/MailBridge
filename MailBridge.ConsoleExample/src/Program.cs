@@ -1,7 +1,6 @@
-using MailKit.Security;
 using MailBridge.Core;
-using Serilog;
-using Serilog.Events;
+using MailKit.Security;
+using NLog;
 
 namespace MailBridge.ConsoleExample
     {
@@ -11,20 +10,13 @@ namespace MailBridge.ConsoleExample
     /// </summary>
     internal class Program
         {
+        #region Private Methods
+
         private static async Task Main(string[] args)
             {
-            string logDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MailBridge", "Logs");
+            LogManager.Setup().LoadConfigurationFromFile("NLog.config");
 
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.ControlledBy(LoggingConfig.LevelSwitch)
-                .WriteTo.Console()
-                .WriteTo.File(
-                    path: Path.Combine(logDirectory, "mailbridge_.log"),
-                    rollingInterval: RollingInterval.Day,
-                    retainedFileCountLimit: 30)
-                .CreateLogger();
-
-            LoggingConfig.LevelSwitch.MinimumLevel = LogEventLevel.Debug;
+            LoggingConfig.SetMinLevel(LogLevel.Debug);
 
             SmtpService smtpService = new();
 
@@ -55,8 +47,10 @@ namespace MailBridge.ConsoleExample
                 }
             finally
                 {
-                Log.CloseAndFlush();
+                LogManager.Shutdown();
                 }
             }
+
+        #endregion Private Methods
         }
     }

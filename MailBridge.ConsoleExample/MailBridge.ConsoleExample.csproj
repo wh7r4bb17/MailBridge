@@ -14,7 +14,7 @@
 		<AssemblyTitle>MailBridge.ConsoleExample</AssemblyTitle>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<FileVersion>$(Version)</FileVersion>
-		<Version>26.1.0</Version>
+		<Version>26.1.1</Version>
 		<Product>ConsoleExample for using MailBridge.Core in a Console Application</Product>
 		<Description>ConsoleExample for using MailBridge.Core in a Console Application.</Description>
 		<Company>wh7r4bb17</Company>
@@ -32,11 +32,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
+		<ProjectReference Include="..\MailBridge.Core\MailBridge.Core.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\MailBridge.Core\MailBridge.Core.csproj" />
+	  <None Update="NLog.config">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.BeforeEnd.targets', '$(MSBuildThisFileDirectory)../'))" Condition="Exists($([MSBuild]::GetPathOfFileAbove('Directory.Build.BeforeEnd.targets', '$(MSBuildThisFileDirectory)../')))" />

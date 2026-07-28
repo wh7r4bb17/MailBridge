@@ -11,7 +11,7 @@ A lightweight WPF desktop client for testing SMTP email delivery, built on top o
 - **Email composition** — From (with display name), To, CC, BCC, Subject, and a plain-text or rich HTML body.
 - **HTML editing** — Toggle between a plain-text editor and a WebView2-based HTML editor. Pasting formatted content (e.g. from Microsoft Word) preserves tables and styles.
 - **Persisted settings** — SMTP server, port, credentials (excluding password), TLS options, and email addresses are saved locally and restored on next launch.
-- **Logging** — Built-in logging via Serilog, toggleable from the UI, with a log viewer window and quick access to the log folder.
+- **Logging** — Built-in logging via Nlog, toggleable from the UI, with a log viewer window and quick access to the log folder.
 - **Cancellable sending** — Long-running send operations can be cancelled, with a configurable connection timeout.
 
 ## Requirements
@@ -41,7 +41,7 @@ Enable **Edit as HTML** to switch the message body to a WebView2-based rich text
 
 ## Logging
 
-Logs are written via Serilog and can be enabled or disabled from the **Options** section. Use **View Log** to open the built-in log viewer, or **Open Folder** to browse the log directory directly.
+Logs are written via NLog and can be enabled or disabled from the **Options** section. Use **View Log** to open the built-in log viewer, or **Open Folder** to browse the log directory directly. Logging targets and the log file location are configured via `NLog.config`, included with the application.
 
 ![MailBridge Log window](docs/MailBridge_TestClient-LogWindow.png)
 
