@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		.gitignore = .gitignore
 		Directory.Build.BeforeEnd.targets = Directory.Build.BeforeEnd.targets
 		LICENCE.md = LICENCE.md
+		.github\workflows\nuget-pack.yml = .github\workflows\nuget-pack.yml
 		README.md = README.md
 	EndProjectSection
 EndProject
