@@ -20,6 +20,7 @@ namespace MailBridge.Core
             };
 
         private static readonly string _localAppDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private static readonly string _settingsDirectory = Path.Combine(_localAppDataDirectory, "MailBridge");
         private static readonly string _settingsFilePath = Path.Combine(_settingsDirectory, "settings.json");
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -109,7 +110,7 @@ namespace MailBridge.Core
                 }
             catch (Exception ex) when (ex is IOException or JsonException or UnauthorizedAccessException)
                 {
-                Logger.Warn(ex, "Failed to load settings");
+                _logger.Warn(ex, "Failed to load settings");
                 }
 
             return new AppSettings();
@@ -131,11 +132,11 @@ namespace MailBridge.Core
                     File.WriteAllText(_settingsFilePath, json);
                     }
 
-                Logger.Info("Settings saved successfully");
+                _logger.Info("Settings saved successfully");
                 }
             catch (Exception ex)
                 {
-                Logger.Error(ex, "Failed to save settings");
+                _logger.Error(ex, "Failed to save settings");
                 }
             }
 
