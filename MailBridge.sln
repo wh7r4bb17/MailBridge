@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+# Visual Studio Version 18
+VisualStudioVersion = 18.11.12315.225 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailBridge.Core", "MailBridge.Core\MailBridge.Core.csproj", "{EA474C8B-00A9-4D1E-9D21-7DC070BC93F8}"
 EndProject
@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		Directory.Build.BeforeEnd.targets = Directory.Build.BeforeEnd.targets
+		LICENCE.md = LICENCE.md
+		.github\workflows\nuget-pack.yml = .github\workflows\nuget-pack.yml
 		README.md = README.md
 	EndProjectSection
 EndProject

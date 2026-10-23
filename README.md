@@ -6,9 +6,9 @@ A .NET solution for sending and testing emails via SMTP, consisting of a reusabl
 
 | Project | Description | Requirements |
 |---|---|---|
-| [MailBridge.Core](MailBridge.Core) | Framework-independent .NET library for sending emails via SMTP using MailKit. Handles connection, authentication, TLS, and attachments. | .NET 8.0 |
-| [MailBridge.Wpf Test Client](MailBridge.Wpf) | WPF desktop client for testing SMTP configurations and composing test emails, including a rich HTML editor and attachment support. | .NET 8.0, Windows 10/11, [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2/) |
-| [MailBridge.ConsoleSample](MailBridge.ConsoleSample) | Minimal console application demonstrating how to use `MailBridge.Core` to send an email programmatically. | .NET 8.0 |
+| [MailBridge.Core](MailBridge.Core) | Framework-independent .NET library for sending emails via SMTP using MailKit. Handles connection, authentication, TLS, and attachments. | .NET 8.0 / .NET 10.0 |
+| [MailBridge.Wpf Test Client](MailBridge.Wpf) | WPF desktop client for testing SMTP configurations and composing test emails, including a rich HTML editor and attachment support. | .NET 10.0,  Windows 10/11, [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2/) |
+| [MailBridge.ConsoleSample](MailBridge.ConsoleSample) | Minimal console application demonstrating how to use `MailBridge.Core` to send an email programmatically. | .NET 10.0 |
 
 ## Getting Started
 
@@ -21,13 +21,6 @@ A .NET solution for sending and testing emails via SMTP, consisting of a reusabl
 
 ## License
 
-Shield: [![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE.md)
 
-This work is licensed under a
-[Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License][cc-by-nc-sa], see [license](MailBridge.Core/LICENSE.md).
-
-[![CC BY-NC-SA 4.0][cc-by-nc-sa-image]][cc-by-nc-sa]
-
-[cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
-[cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
-[cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
+This project is licensed under the [GNU General Public License v3.0](LICENSE.md).

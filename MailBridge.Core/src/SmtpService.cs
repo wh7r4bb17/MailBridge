@@ -13,7 +13,7 @@ namespace MailBridge.Core
     public sealed class SmtpService
         {
         #region Fields
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         #endregion Fields
 
@@ -66,15 +66,15 @@ namespace MailBridge.Core
 
             try
                 {
-                Logger.Debug($"Connecting to SMTP server {host}:{request.Port} using {request.SocketOptions}");
+                _logger.Debug($"Connecting to SMTP server {host}:{request.Port} using {request.SocketOptions}");
                 await client.ConnectAsync(host, request.Port, request.SocketOptions, cancellationToken);
-                Logger.Info($"Connected to SMTP server {host}:{request.Port}");
+                _logger.Info($"Connected to SMTP server {host}:{request.Port}");
 
                 if (username is not null && password is not null)
                     {
-                    Logger.Debug($"Authenticating with SMTP server as {username}");
+                    _logger.Debug($"Authenticating with SMTP server as {username}");
                     await client.AuthenticateAsync(username, password, cancellationToken);
-                    Logger.Info($"Authenticated with SMTP server as {username}");
+                    _logger.Info($"Authenticated with SMTP server as {username}");
                     }
 
                 MimeMessage message = new()
@@ -119,34 +119,34 @@ namespace MailBridge.Core
                     {
                     if (!string.IsNullOrWhiteSpace(attachmentPath) && File.Exists(attachmentPath))
                         {
-                        Logger.Debug($"Attaching file {attachmentPath}");
+                        _logger.Debug($"Attaching file {attachmentPath}");
                         await builder.Attachments.AddAsync(attachmentPath, cancellationToken);
                         }
                     else
-                        { Logger.Warn($"Attachment not found, skipping: {attachmentPath}"); }
+                        { _logger.Warn($"Attachment not found, skipping: {attachmentPath}"); }
                     }
 
                 message.Body = builder.ToMessageBody();
 
-                Logger.Debug($"Sending email from {fromEmail} to {string.Join(", ", toEmails)} with subject {subject}");
+                _logger.Debug($"Sending email from {fromEmail} to {string.Join(", ", toEmails)} with subject {subject}");
                 await client.SendAsync(message, cancellationToken);
 
-                Logger.Info($"Email sent successfully from {fromEmail} to {string.Join(", ", toEmails)}");
+                _logger.Info($"Email sent successfully from {fromEmail} to {string.Join(", ", toEmails)}");
                 await client.DisconnectAsync(true, cancellationToken);
                 }
             catch (OperationCanceledException)
                 {
-                Logger.Warn($"SMTP operation to {host}:{request.Port} was cancelled");
+                _logger.Warn($"SMTP operation to {host}:{request.Port} was cancelled");
                 throw;
                 }
             catch (AuthenticationException ex)
                 {
-                Logger.Error(ex, $"SMTP authentication failed for user {username} on {host}:{request.Port}");
+                _logger.Error(ex, $"SMTP authentication failed for user {username} on {host}:{request.Port}");
                 throw;
                 }
             catch (Exception ex)
                 {
-                Logger.Error(ex, $"Failed to send email from {fromEmail} to {string.Join(", ", toEmails)} via {host}:{request.Port}");
+                _logger.Error(ex, $"Failed to send email from {fromEmail} to {string.Join(", ", toEmails)} via {host}:{request.Port}");
                 throw;
                 }
             }
