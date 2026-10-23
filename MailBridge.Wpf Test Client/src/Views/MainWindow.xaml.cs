@@ -142,7 +142,11 @@ public partial class MainWindow : Window
         if (!Clipboard.ContainsData(DataFormats.Html))
             { return; }
 
-        string rawHtml = (string)Clipboard.GetData(DataFormats.Html);
+        var data = Clipboard.GetData(DataFormats.Html);
+        if (data == null)
+            { return; }
+
+        string rawHtml = (string)data;
         string html = ExtractHtmlDocument(rawHtml);
 
         if (DataContext is MainWindowViewModel vm)
