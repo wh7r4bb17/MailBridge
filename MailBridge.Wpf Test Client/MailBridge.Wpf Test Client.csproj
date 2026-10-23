@@ -15,7 +15,7 @@
 		<AssemblyTitle>MailBridge Test Client</AssemblyTitle>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<FileVersion>$(Version)</FileVersion>
-		<Version>26.1.1</Version>
+		<Version>26.1.2</Version>
 		<Product>A Wpf Test Client to send emails using MailBridge.Core</Product>
 		<Description>A Wpf Test Client to send emails using MailBridge.Core.</Description>
 		<Company>wh7r4bb17</Company>

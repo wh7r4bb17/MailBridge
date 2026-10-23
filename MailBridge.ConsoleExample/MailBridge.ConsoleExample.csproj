@@ -14,7 +14,7 @@
 		<AssemblyTitle>MailBridge.ConsoleExample</AssemblyTitle>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<FileVersion>$(Version)</FileVersion>
-		<Version>26.1.1</Version>
+		<Version>26.1.2</Version>
 		<Product>ConsoleExample for using MailBridge.Core in a Console Application</Product>
 		<Description>ConsoleExample for using MailBridge.Core in a Console Application.</Description>
 		<Company>wh7r4bb17</Company>
