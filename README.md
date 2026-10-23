@@ -6,8 +6,8 @@ A .NET solution for sending and testing emails via SMTP, consisting of a reusabl
 
 | Project | Description | Requirements |
 |---|---|---|
-| [MailBridge.Core](MailBridge.Core) | Framework-independent .NET library for sending emails via SMTP using MailKit. Handles connection, authentication, TLS, and attachments. | .NET 8.0 |
-| [MailBridge.Wpf Test Client](MailBridge.Wpf) | WPF desktop client for testing SMTP configurations and composing test emails, including a rich HTML editor and attachment support. | .NET 8.0, Windows 10/11, [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2/) |
+| [MailBridge.Core](MailBridge.Core) | Framework-independent .NET library for sending emails via SMTP using MailKit. Handles connection, authentication, TLS, and attachments. | .NET 8.0 / .NET 10.0 |
+| [MailBridge.Wpf Test Client](MailBridge.Wpf) | WPF desktop client for testing SMTP configurations and composing test emails, including a rich HTML editor and attachment support. | .NET 8.0 / .NET 10.0,  Windows 10/11, [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2/) |
 | [MailBridge.ConsoleSample](MailBridge.ConsoleSample) | Minimal console application demonstrating how to use `MailBridge.Core` to send an email programmatically. | .NET 8.0 |
 
 ## Getting Started
