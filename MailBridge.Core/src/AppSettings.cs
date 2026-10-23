@@ -11,8 +11,11 @@ namespace MailBridge.Core
     public class AppSettings
         {
         #region Fields
-
+#if NET8_0
         private static readonly object _fileLock = new();
+#elif NET9_0_OR_GREATER
+        private static readonly Lock _fileLock = new();
+#endif
 
         private static readonly JsonSerializerOptions _jsonSerializerOptions = new()
             {
@@ -23,7 +26,6 @@ namespace MailBridge.Core
         private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private static readonly string _settingsDirectory = Path.Combine(_localAppDataDirectory, "MailBridge");
         private static readonly string _settingsFilePath = Path.Combine(_settingsDirectory, "settings.json");
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion Fields
 
